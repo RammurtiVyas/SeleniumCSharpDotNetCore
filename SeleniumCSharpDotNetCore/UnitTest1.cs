@@ -14,7 +14,9 @@ namespace SeleniumCSharpDotNetCore
         [SetUp]
         public void Setup()
         {
-            Driver = new ChromeDriver();
+            var option = new ChromeOptions();
+            option.AddArgument("--headless");
+            Driver = new ChromeDriver(option);
             Driver.Navigate().GoToUrl("https://demo.aspnetawesome.com/");
             Driver.FindElement(By.Id("Meal")).SendKeys("Tomato");
             Driver.FindElement(By.XPath("//input[@name='ChildMeal1']/following-sibling::div[text()='Celery']")).Click();
