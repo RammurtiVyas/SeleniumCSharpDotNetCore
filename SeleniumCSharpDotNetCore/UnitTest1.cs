@@ -1,6 +1,7 @@
 using NUnit.Framework;
 using OpenQA.Selenium;
 using OpenQA.Selenium.Chrome;
+using SeleniumCSharpDotNetCore.Pages;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -28,6 +29,15 @@ namespace SeleniumCSharpDotNetCore
         public void Test1()
         {
             Assert.Pass();
+        }
+        [Test]
+        public void LoginTest()
+        {
+            Driver.Navigate().GoToUrl("http://eaapp.somee.com/");
+            var loginPage = new LoginPage(Driver);
+            loginPage.Login("Admin", "password");
+            var result = Driver.FindElement(By.LinkText("Employee Details")).Enabled;
+            Assert.IsTrue(result);
         }
 
         [TearDown]
