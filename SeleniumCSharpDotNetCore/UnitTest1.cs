@@ -1,16 +1,18 @@
 using FluentAssertions;
+using Microsoft.AspNetCore.Hosting.Internal;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Hosting;
 using NUnit.Framework;
 using OpenQA.Selenium;
 using OpenQA.Selenium.Chrome;
 using SeleniumCSharpDotNetCore.Pages;
 using System;
-using System.Collections.Generic;
-using System.Configuration;
-using System.IO;
+using System.Collections;
 using System.Linq;
+using System.IO;
 using System.Threading;
+using System.Collections.Generic;
 
 namespace SeleniumCSharpDotNetCore
 {
@@ -23,10 +25,7 @@ namespace SeleniumCSharpDotNetCore
         {
             ServiceCollection serviceCollection = new ServiceCollection();
             ConfigureServices(serviceCollection);
-            
-            IServiceProvider serviceProvider = serviceCollection.BuildServiceProvider();
 
-            // Print connection string to demonstrate configuration object is populated
             Console.WriteLine(_configuration.GetSection("Features"));
             Console.WriteLine(_configuration.GetSection("Features").GetSection("HeadlessFeature").Value);
 
@@ -71,12 +70,20 @@ namespace SeleniumCSharpDotNetCore
         }
 
         private void ConfigureServices(IServiceCollection serviceCollection)
-        {
+        { 
+            var env= Environment.GetEnvironmentVariable("COMPUTERNAME").Equals("AzureSOG")?"QA":"";
 
-            // Build configuration
+            // Build configuration)
+            //_configuration = new ConfigurationBuilder()
+            //    .SetBasePath(Directory.GetParent(AppContext.BaseDirectory).FullName)
+            //    .AddJsonFile("appsettings.json", optional: false, reloadOnChange: true)
+            //    .AddJsonFile($"appsettings.{env}.json", optional: true, reloadOnChange: true)
+            //    .Build();
+
+
             _configuration = new ConfigurationBuilder()
                 .SetBasePath(Directory.GetParent(AppContext.BaseDirectory).FullName)
-                .AddJsonFile("appsettings.json", false)
+                .AddJsonFile($"appsettings.{env}.json", optional: true, reloadOnChange: true)
                 .Build();
 
             // Add access to generic IConfigurationRoot
