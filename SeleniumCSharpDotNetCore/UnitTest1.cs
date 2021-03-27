@@ -72,33 +72,12 @@ namespace SeleniumCSharpDotNetCore
         private void ConfigureServices(IServiceCollection serviceCollection)
         {
             string env="";
-            try
-            {
-                env = Environment.GetEnvironmentVariable("COMPUTERNAME").Equals("AzureSOG") ? "QA" : "";
-            }catch (Exception ex)
-            {
-                var list = Environment.GetEnvironmentVariables();
-                foreach (var kv in Environment.GetEnvironmentVariables().Keys)
-                {
-                    Console.WriteLine(list[kv]);
-                }
-            }
-
-            // Build configuration)
-            //_configuration = new ConfigurationBuilder()
-            //    .SetBasePath(Directory.GetParent(AppContext.BaseDirectory).FullName)
-            //    .AddJsonFile("appsettings.json", optional: false, reloadOnChange: true)
-            //    .AddJsonFile($"appsettings.{env}.json", optional: true, reloadOnChange: true)
-            //    .Build();
-
-
+            env = Environment.GetEnvironmentVariable("COMPUTERNAME").Equals("AzureSOG") ? "QA" : "";
             _configuration = new ConfigurationBuilder()
                 .SetBasePath(Directory.GetParent(AppContext.BaseDirectory).FullName)
                 .AddJsonFile($"appsettings.{env}.json", optional: true, reloadOnChange: true)
                 .Build();
-
-            // Add access to generic IConfigurationRoot
-            serviceCollection.AddSingleton<IConfigurationRoot>(_configuration);
+            serviceCollection.AddSingleton(_configuration);
         }
     }
 }
