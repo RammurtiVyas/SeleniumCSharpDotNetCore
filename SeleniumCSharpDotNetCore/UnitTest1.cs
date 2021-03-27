@@ -72,7 +72,9 @@ namespace SeleniumCSharpDotNetCore
         private void ConfigureServices(IServiceCollection serviceCollection)
         {
             string env="";
-            env = Environment.GetEnvironmentVariable("COMPUTERNAME").Equals("AzureSOG") ? "QA" : "";
+            Console.WriteLine(System.Net.Dns.GetHostName());
+            Console.WriteLine(System.Environment.MachineName);
+            env = System.Net.Dns.GetHostName().Contains("AzureSOG") ? "QA" : "";
             _configuration = new ConfigurationBuilder()
                 .SetBasePath(Directory.GetParent(AppContext.BaseDirectory).FullName)
                 .AddJsonFile($"appsettings.{env}.json", optional: true, reloadOnChange: true)
