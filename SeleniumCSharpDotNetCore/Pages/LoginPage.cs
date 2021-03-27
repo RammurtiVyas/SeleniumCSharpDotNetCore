@@ -16,16 +16,17 @@ namespace SeleniumCSharpDotNetCore.Pages
             _driver.Navigate().GoToUrl("http://eaapp.somee.com/Account/Login");
         }
 
-        IWebElement _userName => _driver.FindElement(By.Id("UserName"));
-        IWebElement _password => _driver.FindElement(By.Id("Password"));
-        IWebElement logInButton => _driver.FindElement(By.XPath("/html/body/div[2]/div/div[2]/section/form/div[4]/div/input"));
+        private IWebElement _userName => _driver.FindElement(By.Id("UserName"));
+        private IWebElement _password => _driver.FindElement(By.Id("Password"));
+        private IWebElement logInButton => _driver.FindElement(By.XPath("/html/body/div[2]/div/div[2]/section/form/div[4]/div/input"));
+        //private IWebElement logInButton => _driver.FindElement(By.CssSelector(".btn-default"));
 
         public void Login(string userName, string password)
         {
             _userName.SendKeys(userName);
             _password.SendKeys(password);
             logInButton.Click();
+            _driver.Navigate().GoToUrl("http://eaapp.somee.com");
         }
-
     }
 }
