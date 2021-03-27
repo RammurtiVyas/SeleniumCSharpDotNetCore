@@ -71,9 +71,10 @@ namespace SeleniumCSharpDotNetCore
 
         private void ConfigureServices(IServiceCollection serviceCollection)
         {
+            string env="";
             try
             {
-                var env = Environment.GetEnvironmentVariable("COMPUTERNAME").Equals("AzureSOG") ? "QA" : "";
+                env = Environment.GetEnvironmentVariable("COMPUTERNAME").Equals("AzureSOG") ? "QA" : "";
             }catch (Exception ex)
             {
                 var list = Environment.GetEnvironmentVariables();
